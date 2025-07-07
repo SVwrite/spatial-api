@@ -9,7 +9,8 @@ def serialize_polygon(doc) -> dict:
     return {
         "id": str(doc["_id"]),
         "name": doc["name"],
-        "geometry": doc["geometry"]
+        "geometry": doc["geometry"],
+        "metadata": doc.get("metadata", {})
     }
 
 @router.post("/", response_model=PolygonOut)

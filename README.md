@@ -100,18 +100,17 @@ GET http://localhost:8000/demo/load-sample-data
 This will insert:
 
 ### Points:
-| Name             | Coordinates              |
-|------------------|--------------------------|
-| Connaught Place  | [77.2195, 28.6315]       |
-| India Gate       | [77.2295, 28.6129]       |
-| Qutub Minar      | [77.1855, 28.5244]       |
+| Name             | Coordinates              | Metadata                          |
+|------------------|--------------------------|-----------------------------------|
+| Connaught Place  | [77.2195, 28.6315]       | `{"category": "market"}`          |
+| India Gate       | [77.2295, 28.6129]       | `{"category": "monument"}`        |
+| Qutub Minar      | [77.1855, 28.5244]       | `{"category": "UNESCO site"}`     |
 
 ### Polygons:
-| Name                | Description                          |
-|---------------------|--------------------------------------|
-| Central Delhi       | Rectangle around Connaught Place     |
-| South-Central Delhi | Larger region including all 3 points |
-
+| Name                | Description                          | Metadata                          |
+|---------------------|--------------------------------------|-----------------------------------|
+| Central Delhi       | Rectangle around Connaught Place     | `{"zone": "administrative"}`      |
+| South-Central Delhi | Larger region including all 3 points | `{"zone": "extended-area"}`       |
 ---
 
 ## Spatial Query Examples

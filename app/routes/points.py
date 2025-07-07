@@ -6,11 +6,12 @@ from app.models.point import PointCreate, PointOut
 router = APIRouter()
 
 # Helper to convert MongoDB ObjectId
-def serialize_point(doc) -> dict:
+def serialize_point(doc):
     return {
         "id": str(doc["_id"]),
         "name": doc["name"],
-        "location": doc["location"]
+        "location": doc["location"],
+        "metadata": doc.get("metadata", {})
     }
 
 @router.post("/", response_model=PointOut)
