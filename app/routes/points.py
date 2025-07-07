@@ -28,7 +28,7 @@ def get_all_points():
 def update_point(point_id: str, point: PointCreate):
     result = points_collection.update_one(
         {"_id": ObjectId(point_id)},
-        {"$set": point.dict()}
+        {"$set": point.model_dump()}
     )
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Point not found")
