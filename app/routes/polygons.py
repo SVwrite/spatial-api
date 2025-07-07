@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Body
 from bson import ObjectId
 from app.db.mongo import polygons_collection
 from app.models.polygon import PolygonCreate, PolygonOut
@@ -28,6 +28,18 @@ def update_polygon(polygon_id: str, polygon: PolygonCreate):
     result = polygons_collection.update_one(
         {"_id": ObjectId(polygon_id)},
         {"$set": polygon.dict()}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Polygon not found")
+    updated = polygons_collection.find_one({"_id": ObjectId(polygon_id)})
+    return serialize_polygon(updated)
+
+
+@router.patch("/{polygon_id}", response_model=PolygonOut)
+def patch_polygon(polygon_id: str, data: dict = Body(...)):
+    result = polygons_collection.update_one(
+        {"_id": ObjectId(polygon_id)},
+        {"$set": data}
     )
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Polygon not found")

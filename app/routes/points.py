@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Body
 from bson import ObjectId
 from app.db.mongo import points_collection
 from app.models.point import PointCreate, PointOut
@@ -29,6 +29,18 @@ def update_point(point_id: str, point: PointCreate):
     result = points_collection.update_one(
         {"_id": ObjectId(point_id)},
         {"$set": point.dict()}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Point not found")
+    updated = points_collection.find_one({"_id": ObjectId(point_id)})
+    return serialize_point(updated)
+
+
+@router.patch("/{point_id}", response_model=PointOut)
+def patch_point(point_id: str, data: dict = Body(...)):
+    result = points_collection.update_one(
+        {"_id": ObjectId(point_id)},
+        {"$set": data}
     )
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Point not found")
