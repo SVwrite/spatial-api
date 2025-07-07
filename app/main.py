@@ -11,11 +11,11 @@ app = FastAPI(title="Spatial API")
 
 
 
-@app.get("/ping-db")
-def ping_db():
-    return {"collections": db.list_collection_names()}
-
-
+# @app.get("/ping-db")
+# def ping_db():
+#     return {"collections": db.list_collection_names()}
+#
+#
 
 
 from app.routes import points
@@ -24,6 +24,14 @@ app.include_router(points.router, prefix="/points", tags=["Points"])
 
 from app.routes import polygons
 app.include_router(polygons.router, prefix="/polygons", tags=["Polygons"])
+
+
+from app.routes import spatial
+app.include_router(spatial.router, prefix="/spatial", tags=["Spatial Queries"])
+
+
+from app.routes import demo
+app.include_router(demo.router, prefix="/demo", tags=["Demo & Setup"])
 
 #
 # @app.get("/init-db")

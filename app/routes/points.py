@@ -46,3 +46,11 @@ def patch_point(point_id: str, data: dict = Body(...)):
         raise HTTPException(status_code=404, detail="Point not found")
     updated = points_collection.find_one({"_id": ObjectId(point_id)})
     return serialize_point(updated)
+
+
+@router.post("/bulk", response_model=list[PointOut])
+def add_points_bulk(points: list[PointCreate]):
+    docs = [p.model_dump() for p in points]
+    result = points_collection.insert_many(docs)
+    inserted = points_collection.find({ "_id": { "$in": result.inserted_ids } })
+    return [serialize_point(p) for p in inserted]
