@@ -1,1 +1,6 @@
-__pycache__/\n.env\n*.pyc\n.vscode/\n.idea/
+__pycache__
+.env
+*.pyc
+.vscode/
+.idea/
+

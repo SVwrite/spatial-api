@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  api:
+    build: .
+    container_name: spatial-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - spatial-net
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    container_name: spatial-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: spatialdb
+    networks:
+      - spatial-net
+
+networks:
+  spatial-net:
+    driver: bridge
