@@ -15,7 +15,7 @@ def serialize_point(doc) -> dict:
 
 @router.post("/", response_model=PointOut)
 def add_point(point: PointCreate):
-    result = points_collection.insert_one(point.dict())
+    result = points_collection.insert_one(point.model_dump())
     new_point = points_collection.find_one({"_id": result.inserted_id})
     return serialize_point(new_point)
 
